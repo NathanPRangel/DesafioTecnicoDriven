@@ -7,10 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model participantes {
+model Participante {
   id        Int       @id @default(autoincrement())
-  createdat DateTime? @default(now()) @db.Timestamp(6)
-  updatedat DateTime? @default(now()) @db.Timestamp(6)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp(6)
   name      String    @db.VarChar(255)
   balance   Int
+}
+
+model Jogo {
+  id              Int       @id @default(autoincrement())
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+  homeTeamName    String    @map("home_team_name") @db.VarChar(255)
+  awayTeamName    String    @map("away_team_name") @db.VarChar(255)
+  homeTeamScore   Int       @default(0) @map("home_team_score")
+  awayTeamScore   Int       @default(0) @map("away_team_score")
+  isFinished      Boolean   @default(false) @map("is_finished")
 }
