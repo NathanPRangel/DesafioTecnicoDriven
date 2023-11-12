@@ -1,15 +1,13 @@
-import { participantRepository } from "../repositories/participants-repository"
+import { participanteCreate } from '../repositories/participants-repository';
 
+async function createParticipant(name: string, balance: number) {
+  if (balance < 10) {
+    throw new Error('Balance must be at least 10 for participant creation.');
+  }
+  const create = await participanteCreate(name, balance);
 
-async function createParticipant(name: string, balance:number){
-
-    const create = await participantRepository.participanteCreate(name, balance)
-
-    return create
-
+  return create;
 }
-
-
 export const participantService = {
-    createParticipant
-}
+  createParticipant,
+};

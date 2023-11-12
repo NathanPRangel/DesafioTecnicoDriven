@@ -27,7 +27,6 @@
     "http-status": "^1.7.3",
     "httpstatus": "^1.0.0",
     "joi": "^17.11.0",
-    "lint-staged": "^15.0.2",
     "node": "^21.1.0",
     "pg": "^8.11.3",
     "prisma": "^5.5.2"
@@ -47,6 +46,7 @@
     "eslint-plugin-prettier": "^5.0.1",
     "husky": "^8.0.0",
     "jest": "^29.7.0",
+    "lint-staged": "^15.1.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
     "supertest": "^6.3.3",
