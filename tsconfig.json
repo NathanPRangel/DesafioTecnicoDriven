@@ -16,4 +16,4 @@
    },
    "include": ["src/**/*.ts", "src/config/database.ts"],
    "exclude": ["node_modules", "**/*.spec.ts"]
-  }
+}
