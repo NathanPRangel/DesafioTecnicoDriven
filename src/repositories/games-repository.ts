@@ -1,13 +1,13 @@
 import { prisma } from '../config/database';
 
-async function gameCreate(home_team_name: string, away_team_name: string) {
-  const game = await prisma.jogos.create({
+async function gameCreate(homeTeamName: string, awayTeamName: string) {
+  const game = await prisma.jogo.create({
     data: {
-      home_team_name: home_team_name,
-      away_team_name: away_team_name,
-      home_team_score: 0,
-      away_team_score: 0,
-      is_finished: false,
+      homeTeamName: homeTeamName,
+      awayTeamName: awayTeamName,
+      homeTeamScore: 0,
+      awayTeamScore: 0,
+      isFinished: false,
     },
   });
 
@@ -15,7 +15,7 @@ async function gameCreate(home_team_name: string, away_team_name: string) {
 }
 
 async function gameFind() {
-  const game = await prisma.jogos.findMany();
+  const game = await prisma.jogo.findMany();
   return game;
 }
 
