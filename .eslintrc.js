@@ -10,6 +10,7 @@ module.exports = {
       'plugin:prettier/recommended',
     ],
     rules: {
+      '@typescript-eslint/no-unused-vars': 'warn',
       'import/no-unresolved': 'error',
       'import/order': 'warn',
       'import/no-named-as-default-member': 'off',

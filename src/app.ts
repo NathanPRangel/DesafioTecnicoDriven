@@ -1,18 +1,23 @@
-import express, { json, Request, Response } from 'express';
+import express, { Request, Response, json } from 'express';
+import httpStatus from 'http-status';
+import 'express-async-errors';
 import cors from 'cors';
-import participantRouter from './routers/participants-routers';
-import gamesRouter from './routers/games-routers';
-import betsRouts from './routers/bets-routers';
+import { participantsRouter } from './routers/participants-routers';
+import { gamesRouter } from './routers/games-routers';
+import { betsRouter } from './routers/bets-routers';
+import { handleApplicationErrors } from './middlewares/error-handling-middleware';
 
 const app = express();
 
-app.use(json());
-app.use(cors());
-app.get('/health', (req: Request, res: Response) => {
-  res.status(200).json({ status: 'UP' });
-});
-app.use('/participant', participantRouter);
-app.use('/games', gamesRouter);
-app.use('/bets', betsRouts);
+app
+  .use(cors())
+  .use(json())
+  .get('/health', (req: Request, res: Response) => {
+    res.status(httpStatus.OK).send("I'm ok!");
+  })
+  .use('/', participantsRouter)
+  .use('/', gamesRouter)
+  .use('/', betsRouter)
+  .use(handleApplicationErrors);
 
 export default app;

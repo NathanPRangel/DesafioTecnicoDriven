@@ -1,11 +1,15 @@
 import { Router } from 'express';
-import { participantSchema } from '../schemmas/participants-schemma';
-import { schemaValidator } from '../middlewares/schemma-validator-middleware';
-import { participantGet, participantPost } from '../controller/participants-controller';
+import { participantsController } from '../controllers/participants-controllers';
+import { validateSchemaMiddleware } from '../middlewares/schema-handler-middleware';
+import { participantsSchema } from '../schemas/participants-schemas';
 
-const participantRouter = Router();
+const participantsRouter = Router();
 
-participantRouter.post('/', schemaValidator(participantSchema), participantPost);
-participantRouter.get('/', participantGet);
+participantsRouter.post(
+  '/participants',
+  validateSchemaMiddleware(participantsSchema),
+  participantsController.participantsPost,
+);
+participantsRouter.get('/participants', participantsController.participantsGet);
 
-export default participantRouter;
+export { participantsRouter };

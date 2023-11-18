@@ -1,12 +1,11 @@
 import { Router } from 'express';
-import { schemaValidator } from '../middlewares/schemma-validator-middleware';
-import { finishGame, gameSchema } from '../schemmas/games-schemma';
-import { gamesGet, gamesGetWithId, gamesPost, gamesPostWithId } from '../controller/games-controller';
+import { gamesController } from '../controllers/games-controllers';
+import { validateSchemaMiddleware } from '../middlewares/schema-handler-middleware';
+import { gamesSchema } from '../schemas/games-schemas';
 
 const gamesRouter = Router();
-gamesRouter.post('/', schemaValidator(gameSchema), gamesPost);
-gamesRouter.get('/', gamesGet);
-gamesRouter.get('/:id', gamesGetWithId);
-gamesRouter.post('/:id/finish', schemaValidator(finishGame), gamesPostWithId);
 
-export default gamesRouter;
+gamesRouter.post('/games', validateSchemaMiddleware(gamesSchema), gamesController.gamesPost);
+gamesRouter.get('/games', gamesController.gamesGet);
+
+export { gamesRouter };

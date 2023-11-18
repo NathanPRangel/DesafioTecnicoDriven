@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { schemaValidator } from '../middlewares/schemma-validator-middleware';
-import { bestSchemma } from '../schemmas/bets-schemma';
-import { betsPost } from '../controller/bets-controller';
+import { betsController } from '../controllers/bets-controllers';
+import { validateSchemaMiddleware } from '../middlewares/schema-handler-middleware';
+import { betsSchema } from '../schemas/bets-schemas';
 
-const betsRouts = Router();
+const betsRouter = Router();
 
-betsRouts.post('/', schemaValidator(bestSchemma), betsPost);
+betsRouter.post('/bets', validateSchemaMiddleware(betsSchema), betsController.betsPost);
 
-export default betsRouts;
+export { betsRouter };
