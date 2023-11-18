@@ -7,21 +7,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Participante {
+model participantes {
   id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp(6)
+  createdat DateTime? @default(now()) @db.Timestamp(6)
+  updatedat DateTime? @default(now()) @db.Timestamp(6)
   name      String    @db.VarChar(255)
   balance   Int
+  apostas   apostas[]
 }
 
-model Jogo {
-  id              Int       @id @default(autoincrement())
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
-  homeTeamName    String    @map("home_team_name") @db.VarChar(255)
-  awayTeamName    String    @map("away_team_name") @db.VarChar(255)
-  homeTeamScore   Int       @default(0) @map("home_team_score")
-  awayTeamScore   Int       @default(0) @map("away_team_score")
-  isFinished      Boolean   @default(false) @map("is_finished")
+model jogos {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime? @default(now()) @db.Timestamptz(6)
+  homeTeamName  String?   @db.VarChar(255)
+  awayTeamName  String?   @db.VarChar(255)
+  homeTeamScore Int?      @default(0)
+  awayTeamScore Int?      @default(0)
+  isFinished    Boolean?  @default(false)
+  apostas       apostas[]
+}
+
+model apostas {
+  id            Int            @id @default(autoincrement())
+  createdAt     DateTime?      @default(now()) @db.Timestamp(6)
+  updatedAt     DateTime?      @default(now()) @db.Timestamp(6)
+  homeTeamScore Int?
+  awayTeamScore Int?
+  amountBet     Int?
+  gameId        Int?
+  participantId Int?
+  status        String?        @db.VarChar(20)
+  amountWon     Int?
+  jogos         jogos?         @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game")
+  participantes participantes? @relation(fields: [participantId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_participant")
 }
