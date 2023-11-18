@@ -11,5 +11,3 @@ prisma/**/*
 docker-compose*
 Dockerfile*
 nginx.conf
-# .eslintignore
-

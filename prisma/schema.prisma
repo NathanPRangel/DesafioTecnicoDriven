@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,38 +10,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model participantes {
-  id        Int       @id @default(autoincrement())
-  createdat DateTime? @default(now()) @db.Timestamp(6)
-  updatedat DateTime? @default(now()) @db.Timestamp(6)
-  name      String    @db.VarChar(255)
-  balance   Int
-  apostas   apostas[]
+model Participant {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  balance     Int      // representado em centavos
+  bets        Bet[]
+
+   @@map("participants")
 }
 
-model jogos {
-  id            Int       @id @default(autoincrement())
-  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime? @default(now()) @db.Timestamptz(6)
-  homeTeamName  String?   @db.VarChar(255)
-  awayTeamName  String?   @db.VarChar(255)
-  homeTeamScore Int?      @default(0)
-  awayTeamScore Int?      @default(0)
-  isFinished    Boolean?  @default(false)
-  apostas       apostas[]
+model Game {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  homeTeamName  String
+  awayTeamName  String
+  homeTeamScore Int      @default(0)
+  awayTeamScore Int      @default(0)
+  isFinished    Boolean  @default(false)
+  bets          Bet[]
+
+   @@map("games")
 }
 
-model apostas {
-  id            Int            @id @default(autoincrement())
-  createdAt     DateTime?      @default(now()) @db.Timestamp(6)
-  updatedAt     DateTime?      @default(now()) @db.Timestamp(6)
-  homeTeamScore Int?
-  awayTeamScore Int?
-  amountBet     Int?
-  gameId        Int?
-  participantId Int?
-  status        String?        @db.VarChar(20)
-  amountWon     Int?
-  jogos         jogos?         @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game")
-  participantes participantes? @relation(fields: [participantId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_participant")
+model Bet {
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  homeTeamScore   Int
+  awayTeamScore   Int
+  amountBet       Int      // representado em centavos
+  gameId          Int
+  participantId   Int
+  status          String
+  amountWon       Int?
+  participant     Participant @relation(fields: [participantId], references: [id])
+  game            Game       @relation(fields: [gameId], references: [id])
+
+   @@map("bets")
 }
