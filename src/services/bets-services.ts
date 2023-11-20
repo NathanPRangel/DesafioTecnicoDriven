@@ -13,7 +13,7 @@ async function createBets(
   gameId: number,
   participantId: number,
 ): Promise<Bets> {
-  const participant = await validateAmountBet(participantId, amountBet);
+  const participant = await validateAmountBet(participantId, gameId, amountBet);
   await validateGameStatus(gameId);
   const updatedBalance = participant.balance - amountBet;
   await participantsRepository.updateBalance(participantId, updatedBalance);
@@ -22,10 +22,12 @@ async function createBets(
   return bet;
 }
 
-async function validateAmountBet(participantId: number, amountBet: number): Promise<Participants> {
+async function validateAmountBet(participantId: number, gameId: number, amountBet: number): Promise<Participants> {
   const participant = await participantsRepository.findParticipants(participantId);
   if (!participant) throw notFoundError();
-  if (amountBet > participant.balance) throw balanceInsufficient();
+  const game = await gamesRepository.findGameById(gameId);
+  if (!game) throw notFoundError();
+  if (amountBet > participant.balance || amountBet <= 0) throw balanceInsufficient();
   return participant;
 }
 
