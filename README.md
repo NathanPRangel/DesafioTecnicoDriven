@@ -10,7 +10,7 @@ Sobre o Projeto
 Este projeto é uma aplicação backend para um sistema de apostas utilizado por uma casa de apostas. O objetivo é automatizar os processos da casa de apostas para competir com outras aplicações de apostas.
 
 Tecnologias Utilizadas
-a
+
 As seguintes tecnologias foram utilizadas para desenvolver este projeto:
 
 Node
