@@ -15,9 +15,9 @@ app
   .get('/health', (req: Request, res: Response) => {
     res.status(httpStatus.OK).send("I'm ok!");
   })
-  .use('/', participantsRouter)
-  .use('/', gamesRouter)
-  .use('/', betsRouter)
+  .use(participantsRouter)
+  .use(gamesRouter)
+  .use(betsRouter)
   .use(handleApplicationErrors);
 
 export default app;
